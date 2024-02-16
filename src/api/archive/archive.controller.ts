@@ -10,6 +10,7 @@ import { ApiPaginatedResponse } from '../../shared/pagination/pagination.decorat
 import { UserPositionService } from '../organization/services/UserPosition.service';
 import { OrganizationService } from '../organization/services/organization.service';
 import { AccountService } from '../auth/services/account.service';
+import { MailService } from '../../mail/mail.service';
 
 @Controller('archive')
 @ApiTags('archive')
@@ -22,9 +23,8 @@ export class ArchiveController {
   private readonly organizationService: OrganizationService;
   @Inject(AccountService)
   private readonly accountService: AccountService;
-
-  @InjectRepository(Archive)
-  private readonly invoiceRepository: Repository<Archive>;
+  @Inject(MailService)
+  private readonly mailService: MailService;
 
   @Get()
   @ApiResponse({
@@ -36,30 +36,116 @@ export class ArchiveController {
     const archives = await this.archiveService.getArchives();
     const data = [];
     for (const archive of archives) {
-      const organization =
+      const originatorOrganization =
         await this.organizationService.getOrganizationByRegistrationNumber(
           archive.originatorOrgRegNumber,
         );
-      console.log('organization', organization);
-      const userPositions =
+      const depositorOrganization =
+        await this.organizationService.getOrganizationByRegistrationNumber(
+          archive.depositorOrgRegNumber,
+        );
+      const archiverOrganization =
+        await this.organizationService.getOrganizationByRegistrationNumber(
+          archive.archiverOrgRegNumber,
+        );
+
+      const orginatorUserPositions =
         await this.userPositionService.getUserPositionsByOrgId(
-          organization.orgId,
+          originatorOrganization.orgId,
         );
-      console.log('userPositions', userPositions);
-      const accounts = [];
-      for (const userPosition of userPositions) {
-        const account = await this.accountService.getAccountById(
-          userPosition.userAccountId,
+      const depositorUserPositions =
+        await this.userPositionService.getUserPositionsByOrgId(
+          depositorOrganization.orgId,
         );
-        accounts.push(account);
-      }
+
+      const archiverUserPositions =
+        await this.userPositionService.getUserPositionsByOrgId(
+          archiverOrganization.orgId,
+        );
+
+      //
       data.push({
-        originatorOrgRegNumber: archive.originatorOrgRegNumber,
-        archiveId: archive.archiveId,
-        archiveName: archive.archiveName,
-        accounts,
+        archive: {
+          archiveName: archive.archiveName,
+          originatorOrgRegNumber: archive.originatorOrgRegNumber,
+          depositorOrgRegNumber: archive.depositorOrgRegNumber,
+          archiverOrgNumber: archive.archiverOrgRegNumber,
+        },
+        originator: {
+          orgId: originatorOrganization.orgId,
+          orgName: originatorOrganization.orgName,
+          orgNum: originatorOrganization.registrationNumber,
+          users: orginatorUserPositions.map((userPosition) => {
+            return {
+              userAccountId: userPosition.userAccountId,
+              orgId: userPosition.orgId,
+              orgName: userPosition.organization.orgName,
+              function: userPosition.function,
+              default: userPosition.default,
+              accountName: userPosition.account.accountName,
+              displayName: userPosition.account.displayName,
+              emailAddress: userPosition.account.emailAddress,
+            };
+          }),
+        },
+        depositor: {
+          orgId: depositorOrganization.orgId,
+          orgName: depositorOrganization.orgName,
+          orgNum: depositorOrganization.registrationNumber,
+          users: depositorUserPositions.map((userPosition) => {
+            return {
+              userAccountId: userPosition.userAccountId,
+              orgId: userPosition.orgId,
+              orgName: userPosition.organization.orgName,
+              function: userPosition.function,
+              default: userPosition.default,
+              accountName: userPosition.account.accountName,
+              displayName: userPosition.account.displayName,
+              emailAddress: userPosition.account.emailAddress,
+            };
+          }),
+        },
+        archiver: {
+          orgId: archiverOrganization.orgId,
+          orgName: archiverOrganization.orgName,
+          orgNum: archiverOrganization.registrationNumber,
+          users: archiverUserPositions.map((userPosition) => {
+            return {
+              userAccountId: userPosition.userAccountId,
+              orgId: userPosition.orgId,
+              orgName: userPosition.organization.orgName,
+              function: userPosition.function,
+              default: userPosition.default,
+              accountName: userPosition.account.accountName,
+              displayName: userPosition.account.displayName,
+              emailAddress: userPosition.account.emailAddress,
+            };
+          }),
+        },
       });
     }
+    //send to organization service
+    await this.mailService.sendArchivedNotification(
+      data[0].originator.users.map((user) => user.emailAddress),
+      'Service producteur',
+      `L' archive ${data[0].archive.archiveName}, `,
+      `
+      Notification de l'archivage pour le service producteur ${data[0].originator.orgName}  ${data[0].originator.orgNum}
+    
+      `,
+    );
+    await this.mailService.sendArchivedNotification(
+      data[0].depositor.users.map((user) => user.emailAddress),
+      'Esse Jacques Dansomon',
+      'Service dépositaire',
+      "Notification de l'archivage pour le service dépositaire",
+    );
+    await this.mailService.sendArchivedNotification(
+      data[0].archiver.users.map((user) => user.emailAddress),
+      'Esse Jacques Dansomon',
+      'Service archivage',
+      "Notification de l'archivage pour le service archivage",
+    );
     return data;
   }
 }

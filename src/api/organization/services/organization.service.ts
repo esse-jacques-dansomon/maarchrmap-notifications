@@ -19,4 +19,5 @@ export class OrganizationService {
       where: { registrationNumber: originatorOrgRegNumber },
     });
   }
+
 }

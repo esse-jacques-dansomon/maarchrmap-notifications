@@ -17,6 +17,7 @@ export class UserPositionService {
   async getUserPositionsByOrgId(orgId: string): Promise<UserPosition[]> {
     return this.userPositionRepository.find({
       where: { orgId: orgId },
+      relations: ['account', 'organization'],
     });
   }
 }
