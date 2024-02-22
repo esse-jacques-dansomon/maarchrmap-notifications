@@ -27,92 +27,55 @@ export class LifeCycleService {
       })
       .getMany();
   }
-  async getUnsentLifeCycles(): Promise<MaarchEventDto[]> {
+
+  async getUnsentLifeCycles(): Promise<MaarchRmEvent[]> {
     const events = await this.eventRepository
       .createQueryBuilder('event')
       .leftJoinAndSelect('event.eventFormat', 'eventFormat') // Join with eventFormat
       .where('event.axoneNotificationSent = :sent', { sent: false })
-      .andWhere('eventFormat.notification = :notification', {
-        notification: false,
-      })
+      // .andWhere('eventFormat.notification = :notification', {
+      //   notification: false,
+      // })
       .getMany();
-    return events.map((event) => {
-      const eventDto = new MaarchEventDto();
-      eventDto.eventId = event.eventId;
-      eventDto.eventType = event.eventType;
-      eventDto.eventFormat = event.eventFormat;
-      eventDto.timestamp = event.timestamp;
-      eventDto.instanceName = event.instanceName;
-      eventDto.orgRegNumber = event.orgRegNumber;
-      eventDto.orgUnitRegNumber = event.orgUnitRegNumber;
-      eventDto.accountId = event.accountId;
-      eventDto.objectClass = event.objectClass;
-      eventDto.objectId = event.objectId;
-      eventDto.operationResult = event.operationResult;
-      eventDto.description = event.description;
-      eventDto.eventFormat = event.eventFormat;
-      eventDto.eventInfo = event.eventInfo;
-      eventDto.axoneNotificationSent = event.axoneNotificationSent;
-      eventDto.eventInfoFormat = this.formatEventFormat(
-        event.eventInfo,
-        event.eventFormat.format,
-      );
-
-      return eventDto;
-    });
+    return events;
   }
 
   public async unsentLifeCycleToNotification(): Promise<
     {
-      recipients: string[];
-      message: string;
+      eventInfo: Record<string, string>;
       axoneNotificationSent: boolean;
+      recipients: any;
       notificationType: string;
+      message: string;
       eventFormat: MaarchRmEventFormat;
     }[]
   > {
-    const recipients = [];
     const events = await this.getUnsentLifeCycles();
+    const data = [];
     for (const event of events) {
-      const users = await this.getRecipients(event);
-      recipients.push(users);
-      event.recipients = users;
-    }
-    return events.map((event) => {
-      return {
-        recipients: event.recipients,
+      const users = await this.getEventRecipients(event);
+      const eventData = {
+        recipients: users,
         message: event.description,
         axoneNotificationSent: event.axoneNotificationSent,
         notificationType: event.eventType,
         eventFormat: event.eventFormat,
-        eventInfo: event.eventInfoFormat,
+        eventInfo: event.eventInfoFormatted,
       };
-    });
+      data.push(eventData);
+    }
+    return data;
   }
 
-  private formatEventFormat(
-    eventInfo: string,
-    keys: string,
-  ): Record<string, string> {
-    const formattedEventFormat: Record<string, string> = {};
-    const formatArray = JSON.parse(eventInfo) as string[];
-    const eventInfoArray = keys.split(' ');
-    formatArray.forEach((value, index) => {
-      formattedEventFormat[eventInfoArray[index]] = value;
-    });
-
-    return formattedEventFormat;
-  }
-
-  private async getRecipients(event: MaarchEventDto) {
+  async getEventRecipients(event: MaarchRmEvent): Promise<string[]> {
     const recipients: any[] = [];
     const sender = await this.accountService.getAccountById(event.accountId);
     if (sender) {
       recipients.push(sender.emailAddress);
     }
-    for (const key in event.eventInfoFormat) {
+    for (const key in event.eventInfoFormatted) {
       const users = await this.userPositionService.getUserPositionsByOrgNumber(
-        event.eventInfoFormat[key],
+        event.eventInfoFormatted[key],
       );
       for (const user of users) {
         if (sender.emailAddress !== user.account.emailAddress) {
@@ -125,5 +88,26 @@ export class LifeCycleService {
 
   saveEvent(event: MaarchRmEvent) {
     this.eventRepository.save(event);
+  }
+
+  private marchRmapEventToEventDto(event: MaarchRmEvent): MaarchEventDto {
+    const eventDto = new MaarchEventDto();
+    eventDto.eventId = event.eventId;
+    eventDto.eventType = event.eventType;
+    eventDto.eventFormat = event.eventFormat;
+    eventDto.timestamp = event.timestamp;
+    eventDto.instanceName = event.instanceName;
+    eventDto.orgRegNumber = event.orgRegNumber;
+    eventDto.orgUnitRegNumber = event.orgUnitRegNumber;
+    eventDto.accountId = event.accountId;
+    eventDto.objectClass = event.objectClass;
+    eventDto.objectId = event.objectId;
+    eventDto.operationResult = event.operationResult;
+    eventDto.description = event.description;
+    eventDto.eventFormat = event.eventFormat;
+    eventDto.eventInfo = event.eventInfo;
+    eventDto.axoneNotificationSent = event.axoneNotificationSent;
+    eventDto.eventInfoFormated = event.eventInfoFormatted;
+    return eventDto;
   }
 }

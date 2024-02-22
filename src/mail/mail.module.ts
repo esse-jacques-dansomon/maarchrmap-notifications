@@ -3,7 +3,7 @@ import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handleba
 import { Global, Module } from '@nestjs/common';
 import { MailService } from './mail.service';
 import { join } from 'path';
-import { ConfigModule, ConfigService } from '@nestjs/config';
+import { ConfigService } from '@nestjs/config';
 
 @Global() // 👈 global module
 @Module({
@@ -19,7 +19,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
           port: config.get('MAIL_PORT'),
           tls: {
             // do not fail on invalid certs
-            rejectUnauthorized: false
+            rejectUnauthorized: false,
           },
           auth: {
             user: config.get('MAIL_USER'),

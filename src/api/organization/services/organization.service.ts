@@ -10,14 +10,9 @@ export class OrganizationService {
     private organizationRepository: Repository<Organization>,
   ) {}
 
-  async getOrganizations(): Promise<Organization[]> {
-    return this.organizationRepository.find();
-  }
-
   async getOrganizationByRegistrationNumber(originatorOrgRegNumber: string) {
     return this.organizationRepository.findOne({
       where: { registrationNumber: originatorOrgRegNumber },
     });
   }
-
 }

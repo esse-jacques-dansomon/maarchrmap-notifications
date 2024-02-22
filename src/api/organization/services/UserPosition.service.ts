@@ -10,14 +10,22 @@ export class UserPositionService {
     private userPositionRepository: Repository<UserPosition>,
   ) {}
 
-  async getUserPositions(): Promise<UserPosition[]> {
-    return this.userPositionRepository.find();
-  }
-
   async getUserPositionsByOrgId(orgId: string): Promise<UserPosition[]> {
     return this.userPositionRepository.find({
       where: { orgId: orgId },
       relations: ['account', 'organization'],
     });
+  }
+  async getUserPositionsByOrgNumber(
+    orgNumber: string,
+  ): Promise<UserPosition[]> {
+    return await this.userPositionRepository
+      .createQueryBuilder('userPosition')
+      .leftJoinAndSelect('userPosition.account', 'account')
+      .leftJoinAndSelect('userPosition.organization', 'organization')
+      .where('organization.registrationNumber = :orgNumber', {
+        orgNumber: orgNumber,
+      })
+      .getMany();
   }
 }

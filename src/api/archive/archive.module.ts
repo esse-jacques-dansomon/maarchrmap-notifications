@@ -1,8 +1,6 @@
 import { Module } from '@nestjs/common';
 import { ArchiveController } from './archive.controller';
 import { ArchiveService } from './services/archive.service';
-import { NotificationService } from './notifications/notification.service';
-import { TasksService } from './notifications/tasks.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AccessRule } from './entities/AccessRule.entity';
 import { ArchivalProfile } from './entities/ArchivalProfile.entity';
@@ -11,12 +9,6 @@ import { ArchiveDescription } from './entities/ArchiveDescription.entity';
 import { DescriptionField } from './entities/DescriptionField.entity';
 import { RetentionRule } from './entities/RetentionRule.entity';
 import { ServiceLevel } from './entities/ServiceLevel.entity';
-import { UserPositionService } from '../organization/services/UserPosition.service';
-import { UserPosition } from '../organization/entities/UserPosition.entity';
-import { Organization } from '../organization/entities/Organization.entity';
-import { OrganizationService } from '../organization/services/organization.service';
-import { Account } from '../auth/entities/Account.entity';
-import { AccountService } from '../auth/services/account.service';
 
 @Module({
   controllers: [ArchiveController],
@@ -29,20 +21,9 @@ import { AccountService } from '../auth/services/account.service';
       DescriptionField,
       RetentionRule,
       ServiceLevel,
-      //
-      UserPosition,
-      Organization,
-      Account
     ]),
   ],
-  providers: [
-    ArchiveService,
-    NotificationService,
-    TasksService,
-    UserPositionService,
-    OrganizationService,
-    AccountService,
-  ],
-  exports: [ArchiveService, NotificationService, TasksService],
+  providers: [ArchiveService],
+  exports: [ArchiveService],
 })
 export class ArchiveModule {}

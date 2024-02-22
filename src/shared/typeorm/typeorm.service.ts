@@ -11,6 +11,8 @@ import { ServiceLevel } from '../../api/archive/entities/ServiceLevel.entity';
 import { UserPosition } from '../../api/organization/entities/UserPosition.entity';
 import { Account } from '../../api/auth/entities/Account.entity';
 import { Organization } from '../../api/organization/entities/Organization.entity';
+import { MaarchRmEvent } from '../../api/life-cycle/entities/Event.entity';
+import { MaarchRmEventFormat } from '../../api/life-cycle/entities/EventFormat.entity';
 @Injectable()
 export class TypeOrmConfigService implements TypeOrmOptionsFactory {
   @Inject(ConfigService)
@@ -35,6 +37,8 @@ export class TypeOrmConfigService implements TypeOrmOptionsFactory {
         UserPosition,
         Organization,
         Account,
+        MaarchRmEvent,
+        MaarchRmEventFormat,
       ],
       migrations: ['dist/db/migrations/*.{ts,js}'],
       migrationsTableName: 'maarchrmap_migrations',

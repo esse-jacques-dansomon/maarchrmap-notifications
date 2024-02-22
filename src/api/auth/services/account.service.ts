@@ -19,4 +19,8 @@ export class AccountService {
       where: { accountId: userAccountId },
     });
   }
+
+  updateAccount(account: Account) {
+    return this.accountRepository.save(account);
+  }
 }

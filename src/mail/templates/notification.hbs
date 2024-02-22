@@ -1,0 +1,15 @@
+<div>
+  <p>{{message}} </p>
+  {{#if data}}
+    <p>Informations sur l'événement :</p>
+    <ul>
+      {{#each data}}
+        <li>{{@key}} : {{this}}</li>
+      {{/each}}
+    </ul>
+  {{/if}}
+
+  <p>For more information, please visit the
+    <a href="https://maarchrmap.axone-sn.com/">Axone MaarchRm RMAP</a> website.
+  </p>
+</div>
