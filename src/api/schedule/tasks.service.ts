@@ -1,8 +1,7 @@
 import { Inject, Injectable, Logger } from '@nestjs/common';
-import { Cron, Interval, Timeout } from '@nestjs/schedule';
 import { MailService } from '../../mail/mail.service';
 import { LifeCycleService } from '../life-cycle/services/life-cycle.service';
-import { log, logger } from 'handlebars';
+import { Cron } from '@nestjs/schedule';
 
 @Injectable()
 export class TasksService {
@@ -34,10 +33,7 @@ export class TasksService {
           // await this.mailService.sendEventMail({
           //   text: event.description,
           //   subject: event.eventInfo,
-          //   data: this.lifeCycleService.formatEventFormat(
-          //     `${event.eventFormat.format}`,
-          //     '',
-          //   ),
+          //   data: event.eventInfoFormated,
           //   to: users,
           // });
           // event.axoneNotificationSent = true;

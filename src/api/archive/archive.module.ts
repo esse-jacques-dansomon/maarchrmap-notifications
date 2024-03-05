@@ -9,6 +9,12 @@ import { ArchiveDescription } from './entities/ArchiveDescription.entity';
 import { DescriptionField } from './entities/DescriptionField.entity';
 import { RetentionRule } from './entities/RetentionRule.entity';
 import { ServiceLevel } from './entities/ServiceLevel.entity';
+import { UserPositionService } from '../organization/services/UserPosition.service';
+import { UserPosition } from '../organization/entities/UserPosition.entity';
+import { Organization } from '../organization/entities/Organization.entity';
+import { OrganizationService } from '../organization/services/organization.service';
+import { Account } from '../auth/entities/Account.entity';
+import { AccountService } from '../auth/services/account.service';
 
 @Module({
   controllers: [ArchiveController],
@@ -21,9 +27,18 @@ import { ServiceLevel } from './entities/ServiceLevel.entity';
       DescriptionField,
       RetentionRule,
       ServiceLevel,
+      //
+      UserPosition,
+      Organization,
+      Account,
     ]),
   ],
-  providers: [ArchiveService],
+  providers: [
+    ArchiveService,
+    UserPositionService,
+    OrganizationService,
+    AccountService,
+  ],
   exports: [ArchiveService],
 })
 export class ArchiveModule {}
