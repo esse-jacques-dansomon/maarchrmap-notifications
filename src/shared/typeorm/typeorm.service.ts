@@ -1,13 +1,18 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { TypeOrmModuleOptions, TypeOrmOptionsFactory } from '@nestjs/typeorm';
-import { User } from '../../api/user/entities/user.entity';
-import { Otp } from '../../api/user/entities/otp.entity';
-import { LoginHistory } from '../../api/user/entities/login-history.entity';
-import { Company } from '../../api/invoice/entities/company.entity';
-import { Partner } from '../../api/invoice/entities/partner.entity';
-import { Invoice } from '../../api/invoice/entities/invoice.entity';
-
+import { AccessRule } from '../../api/archive/entities/AccessRule.entity';
+import { ArchivalProfile } from '../../api/archive/entities/ArchivalProfile.entity';
+import { Archive } from '../../api/archive/entities/Archive.entity';
+import { ArchiveDescription } from '../../api/archive/entities/ArchiveDescription.entity';
+import { DescriptionField } from '../../api/archive/entities/DescriptionField.entity';
+import { RetentionRule } from '../../api/archive/entities/RetentionRule.entity';
+import { ServiceLevel } from '../../api/archive/entities/ServiceLevel.entity';
+import { UserPosition } from '../../api/organization/entities/UserPosition.entity';
+import { Account } from '../../api/auth/entities/Account.entity';
+import { Organization } from '../../api/organization/entities/Organization.entity';
+import { MaarchRmEvent } from '../../api/life-cycle/entities/Event.entity';
+import { MaarchRmEventFormat } from '../../api/life-cycle/entities/EventFormat.entity';
 @Injectable()
 export class TypeOrmConfigService implements TypeOrmOptionsFactory {
   @Inject(ConfigService)
@@ -21,9 +26,22 @@ export class TypeOrmConfigService implements TypeOrmOptionsFactory {
       database: this.config.get<string>('DATABASE_NAME'),
       username: this.config.get<string>('DATABASE_USER'),
       password: this.config.get<string>('DATABASE_PASSWORD'),
-      entities: [User, Otp, LoginHistory, Company, Partner, Invoice],
+      entities: [
+        AccessRule,
+        ArchivalProfile,
+        Archive,
+        ArchiveDescription,
+        DescriptionField,
+        RetentionRule,
+        ServiceLevel,
+        UserPosition,
+        Organization,
+        Account,
+        MaarchRmEvent,
+        MaarchRmEventFormat,
+      ],
       migrations: ['dist/db/migrations/*.{ts,js}'],
-      migrationsTableName: 'axone_pay_typeorm_migrations',
+      migrationsTableName: 'maarchrmap_migrations',
       logger: 'file',
       synchronize: false, // never use TRUE in production!
     };
