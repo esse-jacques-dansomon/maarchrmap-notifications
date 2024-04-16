@@ -1,12 +1,5 @@
-import {
-  Column,
-  Entity,
-  JoinColumn,
-  ManyToOne,
-  OneToMany,
-  PrimaryColumn,
-} from 'typeorm';
-import { ApiResponse } from '@nestjs/swagger';
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryColumn } from 'typeorm';
+
 import { MaarchRmEventFormat } from './EventFormat.entity';
 import { Expose } from 'class-transformer';
 
@@ -47,16 +40,6 @@ export class MaarchRmEvent {
 
   @Column({ type: 'text', nullable: true })
   eventInfo: string;
-
-  @Column({
-    type: 'enum',
-    default: 'notVerified',
-    enum: ['notVerified', 'canBeNotified', 'canNotBeNotified'],
-  })
-  axoneNotification: string;
-
-  @Column({ type: 'boolean', default: false })
-  axoneNotificationSent: boolean;
 
   @ManyToOne(() => MaarchRmEventFormat, (eventFormat) => eventFormat.events, {
     eager: true,
