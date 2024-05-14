@@ -6,6 +6,7 @@ import { OrganizationModule } from './organization/organization.module';
 import { AuthModule } from './auth/auth.module';
 import { LifeCycleModule } from './life-cycle/life-cycle.module';
 import { ScheduleModule } from './schedule/schedule.module';
+import { BatchProcessingModule } from './batch-processing/batch-processing.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { ScheduleModule } from './schedule/schedule.module';
     AuthModule,
     LifeCycleModule,
     ScheduleModule,
+    BatchProcessingModule,
   ],
   providers: [
     {

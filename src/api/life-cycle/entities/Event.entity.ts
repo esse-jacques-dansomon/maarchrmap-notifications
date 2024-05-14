@@ -48,16 +48,6 @@ export class MaarchRmEvent {
   @Column({ type: 'text', nullable: true })
   eventInfo: string;
 
-  @Column({
-    type: 'enum',
-    default: 'notVerified',
-    enum: ['notVerified', 'canBeNotified', 'canNotBeNotified'],
-  })
-  axoneNotification: string;
-
-  @Column({ type: 'boolean', default: false })
-  axoneNotificationSent: boolean;
-
   @ManyToOne(() => MaarchRmEventFormat, (eventFormat) => eventFormat.events, {
     eager: true,
   })
