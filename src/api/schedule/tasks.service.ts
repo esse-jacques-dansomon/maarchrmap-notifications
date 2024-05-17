@@ -27,20 +27,20 @@ export class TasksService {
       if (eventFormat) {
         const message = eventFormat.format;
         if (eventFormat.notification) {
-          // event.axoneNotification = 'canBeNotified';
+          event.axoneNotification = 'canBeNotified';
         } else {
-          // event.axoneNotification = 'canNotBeNotified';
+          event.axoneNotification = 'canNotBeNotified';
         }
         if (!event.axoneNotificationSent) {
           const users = await this.lifeCycleService.getEventRecipients(event);
           //send mail
-          // await this.mailService.sendEventMail({
-          //   text: event.description,
-          //   subject: event.eventInfo,
-          //   data: event.eventInfoFormated,
-          //   to: users,
-          // });
-          // event.axoneNotificationSent = true;
+          await this.mailService.sendEventMail({
+            text: event.description,
+            subject: event.eventInfo,
+            data: event.eventInfoFormatted,
+            to: users,
+          });
+          event.axoneNotificationSent = true;
           console.log('send mail', event.eventType, 'users', users);
         }
         //save event

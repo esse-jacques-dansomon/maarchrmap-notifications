@@ -1,73 +1,98 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+# Project Installation Guide
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+This guide provides step-by-step instructions to clone the repository, update the database, create a new `.env` file, install dependencies, build, and run the project.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## Table of Contents
 
-## Description
+1. [Clone the Repository](#clone-the-repository)
+2. [Update the Database](#update-the-database)
+3. [Create a New .env File](#create-a-new-env-file)
+4. [Install the Dependencies](#install-the-dependencies)
+5. [Build the Project](#build-the-project)
+6. [Run the Project](#run-the-project)
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+## Clone the Repository
 
-## Installation
+First, you need to clone the repository to your local machine. Open your terminal and run the following command:
 
 ```bash
-$ pnpm install
+git clone https://github.com/esse-jacques-dansomon/maarchrmap-notifications.git  
+cd maarchrmap-notifications
 ```
 
-## Running the app
+## Update the Database
+
+Update maarchrmap database
+```sql
+CREATE TYPE axoneNotificationType AS ENUM('notVerified', 'canBeNotified', 'canNotBeNotified');
+
+ALTER TABLE "lifeCycle"."event"
+    ADD COLUMN "axoneNotification" axoneNotificationType DEFAULT 'notVerified';
+
+ADD COLUMN "axoneNotificationSent" boolean DEFAULT false;
+```
+
+## Create a New .env File
+
+Create a `.env` file in the root of your project directory with the following content, replacing placeholders with your actual database configuration:
+
+```env
+DATABASE_HOST=localhost
+DATABASE_PORT=5432
+DATABASE_USER=maarch
+DATABASE_PASSWORD=maarch
+DATABASE_NAME=maarchRMAP
+
+MAIL_HOST=
+MAIL_PORT=
+MAILER_SECURE=
+MAILER_TLS=
+MAIL_USER=
+MAIL_PASSWORD=
+MAIL_FROM=
+```
+
+## Install the Dependencies
+
+Ensure you have Node.js and npm installed. If not, install them from [Node.js official website](https://nodejs.org/).
+
+Install the project dependencies by running:
 
 ```bash
-# development
-$ pnpm run start
-
-# watch mode
-$ pnpm run start:dev
-
-# production mode
-$ pnpm run start:prod
+npm install
 ```
 
-## Test
+## Build the Project
+
+To build the project, run:
 
 ```bash
-# unit tests
-$ pnpm run test
-
-# e2e tests
-$ pnpm run test:e2e
-
-# test coverage
-$ pnpm run test:cov
+npm run build
 ```
 
-## Support
+## Run the Project
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+Finally, to run the project, use:
 
-## Stay in touch
+```bash
+npm run start:prod
+```
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+Alternatively, if you are using Docker, you can build and run the project using Docker Compose:
 
-## License
+1. Ensure Docker and Docker Compose are installed on your machine.
 
-Nest is [MIT licensed](LICENSE).
+2. Build and start the containers:
+
+    ```bash
+    docker-compose up --build
+    ```
+
+3. Your application should now be running and accessible at `http://localhost:3000`.
+
+## Additional Notes
+
+- Make sure to replace `yourusername` and `yourrepository` with the actual username and repository name.
+- Ensure your PostgreSQL server is configured correctly to accept connections from your application.
+- Check the Docker configuration if you are using Docker to ensure all services are set up correctly.
+- For any issues or further customization, refer to the project's documentation or contact the maintainers.
