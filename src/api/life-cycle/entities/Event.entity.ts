@@ -47,6 +47,16 @@ export class MaarchRmEvent {
   @JoinColumn({ name: 'eventType' }) // Foreign key column name
   eventFormat: MaarchRmEventFormat;
 
+  @Column({
+    type: 'enum',
+    default: 'notVerified',
+    enum: ['notVerified', 'canBeNotified', 'canNotBeNotified'],
+  })
+  axoneNotification: string;
+
+  @Column({ type: 'boolean', default: false })
+  axoneNotificationSent: boolean;
+
   @Expose()
   get eventInfoFormatted(): Record<string, string> {
     const formattedEventFormat: Record<string, string> = {};

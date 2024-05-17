@@ -13,12 +13,23 @@ import { Account } from '../../api/auth/entities/Account.entity';
 import { Organization } from '../../api/organization/entities/Organization.entity';
 import { MaarchRmEvent } from '../../api/life-cycle/entities/Event.entity';
 import { MaarchRmEventFormat } from '../../api/life-cycle/entities/EventFormat.entity';
+import { Notification } from '../../api/batch-processing/entities/Notification';
 @Injectable()
 export class TypeOrmConfigService implements TypeOrmOptionsFactory {
   @Inject(ConfigService)
   private readonly config: ConfigService;
 
   public createTypeOrmOptions(): TypeOrmModuleOptions {
+    console.log(
+      'creating typeOrm',
+      this.config.get<string>('DATABASE_NAME'),
+      this.config.get<string>('DATABASE_HOST'),
+      this.config.get<number>('DATABASE_PORT'),
+      this.config.get<string>('DATABASE_NAME'),
+      this.config.get<string>('DATABASE_USER'),
+      this.config.get<string>('DATABASE_PASSWORD'),
+    );
+    console.log(this.config);
     return {
       type: 'postgres',
       host: this.config.get<string>('DATABASE_HOST'),
@@ -39,6 +50,7 @@ export class TypeOrmConfigService implements TypeOrmOptionsFactory {
         Account,
         MaarchRmEvent,
         MaarchRmEventFormat,
+        Notification,
       ],
       migrations: ['dist/db/migrations/*.{ts,js}'],
       migrationsTableName: 'maarchrmap_migrations',
