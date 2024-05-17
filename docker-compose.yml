@@ -1,4 +1,3 @@
-name: maarch_rmap_dev
 version: '3'
 
 networks:
