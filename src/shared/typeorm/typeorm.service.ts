@@ -20,6 +20,16 @@ export class TypeOrmConfigService implements TypeOrmOptionsFactory {
   private readonly config: ConfigService;
 
   public createTypeOrmOptions(): TypeOrmModuleOptions {
+    console.log(
+      'creating typeOrm',
+      this.config.get<string>('DATABASE_NAME'),
+      this.config.get<string>('DATABASE_HOST'),
+      this.config.get<number>('DATABASE_PORT'),
+      this.config.get<string>('DATABASE_NAME'),
+      this.config.get<string>('DATABASE_USER'),
+      this.config.get<string>('DATABASE_PASSWORD'),
+    );
+    console.log(this.config);
     return {
       type: 'postgres',
       host: this.config.get<string>('DATABASE_HOST'),

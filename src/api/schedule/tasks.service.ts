@@ -41,7 +41,7 @@ export class TasksService {
           //   to: users,
           // });
           // event.axoneNotificationSent = true;
-          console.log('send mail', event.eventType);
+          console.log('send mail', event.eventType, 'users', users);
         }
         //save event
         this.lifeCycleService.saveEvent(event);

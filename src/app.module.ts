@@ -20,4 +20,8 @@ import { MailModule } from './mail/mail.module';
   controllers: [],
   providers: [],
 })
-export class AppModule {}
+export class AppModule {
+  constructor() {
+    console.log('testing');
+  }
+}
