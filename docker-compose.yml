@@ -1,0 +1,40 @@
+name: maarch_rmap_dev
+version: '3'
+
+networks:
+  maarch_rmap:
+    driver: bridge
+
+services:
+  maarch_rmap_app:
+    container_name: maarch_rmap_app
+    hostname: maarch_rmap_app
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - DATABASE_HOST=
+      - DATABASE_NAME=
+      - DATABASE_USER=
+      - DATABASE_PASSWORD=
+      - DATABASE_PORT=
+      - PORT=3000
+      - GLOBAL_PREFIX=api
+      #JWT
+      - JWT_KEY=dev
+      - JWT_EXPIRES=365d
+
+      #MAIL
+      - MAIL_HOST=
+      - MAIL_PORT=
+      - MAILER_SECURE=
+      - MAILER_TLS=
+      - MAIL_USER=
+      - MAIL_PASSWORD=
+      - MAIL_FROM=
+
+    networks:
+      - maarch_rmap
