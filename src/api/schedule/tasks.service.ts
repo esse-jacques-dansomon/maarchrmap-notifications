@@ -2,6 +2,7 @@ import { Inject, Injectable, Logger } from '@nestjs/common';
 import { MailService } from '../../mail/mail.service';
 import { Cron } from '@nestjs/schedule';
 import { NotificationService } from '../batch-processing/services/notification/notification.service';
+import { LifeCycleService } from '../life-cycle/services/life-cycle.service';
 
 @Injectable()
 export class TasksService {
@@ -47,10 +48,4 @@ export class TasksService {
       }
     }
   }
-// =======
-//   ) {}
-
-//   @Cron('10 * * * * *') // every 45 seconds
-//   async updateEventNotificationSchedule() {}
-// >>>>>>> main
 }
