@@ -1,12 +1,5 @@
-import {
-  Column,
-  Entity,
-  JoinColumn,
-  ManyToOne,
-  OneToMany,
-  PrimaryColumn,
-} from 'typeorm';
-import { ApiResponse } from '@nestjs/swagger';
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryColumn } from 'typeorm';
+
 import { MaarchRmEventFormat } from './EventFormat.entity';
 import { Expose } from 'class-transformer';
 
