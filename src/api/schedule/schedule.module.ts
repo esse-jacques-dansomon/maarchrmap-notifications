@@ -10,6 +10,8 @@ import { LifeCycleService } from '../life-cycle/services/life-cycle.service';
 import { AccountService } from '../auth/services/account.service';
 import { OrganizationService } from '../organization/services/organization.service';
 import { UserPositionService } from '../organization/services/UserPosition.service';
+import { NotificationService } from '../batch-processing/services/notification/notification.service';
+import { Notification } from '../batch-processing/entities/Notification';
 
 @Module({
   imports: [
@@ -19,6 +21,9 @@ import { UserPositionService } from '../organization/services/UserPosition.servi
       Account,
       Organization,
       UserPosition,
+
+      //
+      Notification,
     ]),
   ],
   providers: [
@@ -27,6 +32,7 @@ import { UserPositionService } from '../organization/services/UserPosition.servi
     AccountService,
     OrganizationService,
     UserPositionService,
+    NotificationService,
   ],
   exports: [TasksService],
 })
