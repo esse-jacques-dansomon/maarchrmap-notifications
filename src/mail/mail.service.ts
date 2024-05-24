@@ -41,6 +41,7 @@ export class MailService {
     text: string;
     data: any | null;
   }) {
+    // const dataTranfomed =
     return await this.mailerService.sendMail({
       to: notification.to,
       subject: notification.subject,
@@ -48,6 +49,13 @@ export class MailService {
       context: {
         message: notification.text,
         data: notification.data,
+        resId: notification.data.resId,
+        address: notification.data.address,
+        originatorOrgRegNumber: notification.data.originatorOrgRegNumber,
+        depositorOrgRegNumber: notification.data.depositorOrgRegNumber,
+        archiverOrgRegNumber: notification.data.archiverOrgRegNumber,
+        originatorArchiveId: notification.data.originatorArchiveId,
+        archivalProfileReference: notification.data.archivalProfileReference,
       },
     });
   }

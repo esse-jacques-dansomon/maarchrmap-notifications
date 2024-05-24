@@ -3,29 +3,27 @@
   {{#if data}}
     <p>Informations sur l'événement :</p>
     <ul>
-      {{#each data}}
-        {{#if (eq @key "resId")}}
-          <li>Identifiant de ressource : {{this}}</li>
+        {{#if resId}}
+          <li>Identifiant de ressource : {{resId}}</li>
         {{/if}}
-        {{#if (eq @key "address")}}
-          <li>Adresse : {{this}}</li>
+        {{#if address}}
+          <li>Adresse : {{address}}</li>
         {{/if}}
-        {{#if (eq @key "originatorOrgRegNumber")}}
-          <li>Numéro de registre de l'organisation d'origine : {{this}}</li>
+        {{#if originatorOrgRegNumber}}
+          <li>Numéro de registre de l'organisation d'origine : {{originatorOrgRegNumber}}</li>
         {{/if}}
-        {{#if (eq @key "depositorOrgRegNumber")}}
-          <li>Numéro de registre de l'organisation déposante : {{this}}</li>
+        {{#if depositorOrgRegNumber}}
+          <li>Numéro de registre de l'organisation déposante : {{depositorOrgRegNumber}}</li>
         {{/if}}
-        {{#if (eq @key "archiverOrgRegNumber")}}
-          <li>Numéro de registre de l'organisation d'archivage : {{this}}</li>
+        {{#if archiverOrgRegNumber}}
+          <li>Numéro de registre de l'organisation d'archivage : {{archiverOrgRegNumber}}</li>
         {{/if}}
-        {{#if (eq @key "originatorArchiveId")}}
-          <li>Identifiant de l'archive d'origine : {{this}}</li>
+        {{#if originatorArchiveId}}
+          <li>Identifiant de l'archive d'origine : {{originatorArchiveId}}</li>
         {{/if}}
-        {{#if (eq @key "archivalProfileReference")}}
-          <li>Référence du profil d'archivage : {{this}}</li>
+        {{#if archivalProfileReference}}
+          <li>Référence du profil d'archivage : {{archivalProfileReference}}</li>
         {{/if}}
-      {{/each}}
     </ul>
   {{/if}}
 
