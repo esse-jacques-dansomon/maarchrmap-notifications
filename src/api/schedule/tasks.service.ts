@@ -17,7 +17,7 @@ export class TasksService {
     private readonly notificationService: NotificationService,
   ) {}
 
-  @Cron('60 * * * * *') // every 45 seconds
+  @Cron('30 * * * * *') // every 45 seconds
   async updateEventNotificationSchedule() {
     const eventLifeCycles =
       await this.lifeCycleService.getLifeCyclesMustOrNotNotified();
