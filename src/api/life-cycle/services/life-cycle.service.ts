@@ -25,6 +25,9 @@ export class LifeCycleService {
       .where('event.axoneNotification = :axoneNotification', {
         axoneNotification: 'notVerified',
       })
+      .andWhere('eventFormat.notification =: notification', {
+        notification: true,
+      })
       .getMany();
   }
 
