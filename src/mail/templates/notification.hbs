@@ -1,15 +1,35 @@
 <div>
-  <p>{{message}} </p>
+  <p>{{message}}</p>
   {{#if data}}
     <p>Informations sur l'événement :</p>
     <ul>
       {{#each data}}
-        <li>{{@key}} : {{this}}</li>
+        {{#if (eq @key "resId")}}
+          <li>Identifiant de ressource : {{this}}</li>
+        {{/if}}
+        {{#if (eq @key "address")}}
+          <li>Adresse : {{this}}</li>
+        {{/if}}
+        {{#if (eq @key "originatorOrgRegNumber")}}
+          <li>Numéro de registre de l'organisation d'origine : {{this}}</li>
+        {{/if}}
+        {{#if (eq @key "depositorOrgRegNumber")}}
+          <li>Numéro de registre de l'organisation déposante : {{this}}</li>
+        {{/if}}
+        {{#if (eq @key "archiverOrgRegNumber")}}
+          <li>Numéro de registre de l'organisation d'archivage : {{this}}</li>
+        {{/if}}
+        {{#if (eq @key "originatorArchiveId")}}
+          <li>Identifiant de l'archive d'origine : {{this}}</li>
+        {{/if}}
+        {{#if (eq @key "archivalProfileReference")}}
+          <li>Référence du profil d'archivage : {{this}}</li>
+        {{/if}}
       {{/each}}
     </ul>
   {{/if}}
 
-  <p>For more information, please visit the
-    <a href="https://maarchrmap.axone-sn.com/">Axone MaarchRm RMAP</a> website.
+  <p>Pour plus d'informations, veuillez visiter le site
+    <a href="https://maarchrmap.axone-sn.com/">Axone Archive</a>.
   </p>
 </div>
