@@ -17,7 +17,7 @@ export class TasksService {
     private readonly notificationService: NotificationService,
   ) {}
 
-  @Cron('30 * * * * *') // every 45 seconds
+  @Cron('60 * * * * *') // every 45 seconds
   async updateEventNotificationSchedule() {
     const eventLifeCycles =
       await this.lifeCycleService.getLifeCyclesMustOrNotNotified();
@@ -25,26 +25,23 @@ export class TasksService {
     for (const event of eventLifeCycles) {
       const eventFormat = event.eventFormat;
       if (eventFormat) {
-        // const message = eventFormat.format;
-        event.axoneNotification = 'canNotBeNotified';
-
-        // if (eventFormat.notification) {
-        //   event.axoneNotification = 'canBeNotified';
-        // } else {
-        //   event.axoneNotification = 'canNotBeNotified';
-        // }
-        // if (!event.axoneNotificationSent) {
-        //   const users = await this.lifeCycleService.getEventRecipients(event);
-        //   //send mail
-        //   await this.mailService.sendEventMail({
-        //     text: event.description,
-        //     subject: event.eventInfo,
-        //     data: event.eventInfoFormatted,
-        //     to: users,
-        //   });
-        //   event.axoneNotificationSent = true;
-        //   console.log('send mail', event.eventType, 'users', users);
-        // }
+        if (eventFormat.notification) {
+          event.axoneNotification = 'canBeNotified';
+        } else {
+          event.axoneNotification = 'canNotBeNotified';
+        }
+        if (!event.axoneNotificationSent) {
+          const users = await this.lifeCycleService.getEventRecipients(event);
+          //send mail
+          await this.mailService.sendEventMail({
+            text: event.description,
+            subject: event.eventType,
+            data: event.eventInfoFormatted,
+            to: users,
+          });
+          event.axoneNotificationSent = true;
+          console.log('send mail', event.eventType, 'users', users);
+        }
         //save event
         this.lifeCycleService.saveEvent(event);
       }
