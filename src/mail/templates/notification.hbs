@@ -1,6 +1,17 @@
 <div>
   <p>{{message}}</p>
 
+  {{# if archive}}
+
+    {{# if archive.archiveName}}
+      <p>Archive : {{archive.archiveName}} </p>
+    {{/if}}
+
+    {{# if archive.originatorOrgRegNumber}}
+      <p>Service producteur : {{archive.originatorOrgRegNumber}} </p>
+    {{/if}}
+
+  {{/if}}
 
   {{#if data}}
 
