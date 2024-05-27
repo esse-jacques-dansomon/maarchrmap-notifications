@@ -18,7 +18,8 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
-    "docker" : "docker build -t essejacquesdansomon/maarchrmap-app:latest ."
+    "docker" : "docker build -t essejacquesdansomon/maarchrmap-app:latest .",
+    "deploy" : "git pull && npm run build && pm2 restart 0 --watch && pm2 logs 0"
   },
   "dependencies": {
     "@nestjs-modules/mailer": "^1.10.3",
