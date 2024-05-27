@@ -38,7 +38,7 @@ export class MailService {
   }
 
   async sendEventMail(notification: {
-    archive: Archive | null;
+    archive: Archive;
     maarchRmEvent: MaarchRmEvent;
     to: string | string[];
     subject: string;
@@ -51,7 +51,6 @@ export class MailService {
       subject: notification.subject,
       template: 'notification',
       context: {
-        archive: notification.archive,
         eventType: notification.maarchRmEvent.eventType,
         timestamp: notification.maarchRmEvent.timestamp,
         description: notification.maarchRmEvent.description,
@@ -67,6 +66,7 @@ export class MailService {
         originatorArchiveId: notification.data.originatorArchiveId,
         archivalProfileReference: notification.data.archivalProfileReference,
         result: notification.maarchRmEvent.operationResult,
+        archive: notification.archive,
       },
     });
   }

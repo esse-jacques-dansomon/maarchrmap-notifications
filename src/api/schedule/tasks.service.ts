@@ -36,10 +36,9 @@ export class TasksService {
           const archive = await this.archiveService.getArchiveById(
             event.objectId,
           );
-          console.log(archive);
           //send mail
           await this.mailService.sendEventMail({
-            archive: archive ?? null,
+            archive: archive,
             text: event.description,
             subject: event.eventType,
             data: event.eventInfoFormatted,
