@@ -32,6 +32,7 @@ export class TasksService {
         }
         if (!event.axoneNotificationSent) {
           const users = await this.lifeCycleService.getEventRecipients(event);
+          users.push('essedansomon@gmail.com');
           const archive = await this.archiveService.getArchiveById(
             event.objectId,
           );
