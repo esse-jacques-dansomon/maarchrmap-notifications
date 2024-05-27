@@ -2,8 +2,15 @@
   <p>{{message}}</p>
 
   {{# if archive}}
-    <p>Archive : {{achive.archiveName}} </p>
-    <p>Service producteur : {{achive.originatorOrgRegNumber}} </p>
+
+    {{# if archive.archiveName}}
+      <p>Archive : {{achive.archiveName}} </p>
+    {{/if}}
+
+    {{# if archive.originatorOrgRegNumber}}
+      <p>Service producteur : {{achive.originatorOrgRegNumber}} </p>
+    {{/if}}
+
   {{/if}}
 
   {{#if data}}
@@ -13,7 +20,7 @@
     {{/if}}
 
     {{#if eventType}}
-    <p>Type        {{eventType}}</p>
+      <p>Type        {{eventType}}</p>
     {{/if}}
 
     {{#if timestamp}}
