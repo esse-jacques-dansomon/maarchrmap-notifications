@@ -13,4 +13,10 @@ export class ArchiveService {
   async getArchives(): Promise<Archive[]> {
     return await this.archiveRepository.find();
   }
+
+  async getArchiveById(objectId: string) {
+    return await this.archiveRepository.findOne({
+      where: { archiveId: objectId },
+    });
+  }
 }

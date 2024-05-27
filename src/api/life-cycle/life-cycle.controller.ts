@@ -22,13 +22,6 @@ export class LifeCycleController {
   @Get()
   @HttpCode(HttpStatus.OK)
   async getUnsentLifeCycles(): Promise<MaarchRmEvent[]> {
-    const events = await this.lifeCycleService.getUnsentLifeCycles();
-    await this.mailService.sendEventMail({
-      data: events[0].eventInfoFormatted,
-      subject: events[0].eventType,
-      text: events[0].description,
-      to: 'essedansomon@gmail.com',
-    });
-    return events;
+    return await this.lifeCycleService.getUnsentLifeCycles();
   }
 }

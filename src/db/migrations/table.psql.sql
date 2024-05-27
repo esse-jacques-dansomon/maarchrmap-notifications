@@ -11,6 +11,5 @@
 CREATE TYPE axoneNotificationType AS ENUM('notVerified', 'canBeNotified', 'canNotBeNotified');
 
 ALTER TABLE "lifeCycle"."event"
-    ADD COLUMN "axoneNotification" axoneNotificationType DEFAULT 'notVerified';
-
-ADD COLUMN "axoneNotificationSent" boolean DEFAULT false;
+    ADD COLUMN "axoneNotification" axoneNotificationType DEFAULT 'notVerified',
+    ADD COLUMN "axoneNotificationSent" boolean DEFAULT false;

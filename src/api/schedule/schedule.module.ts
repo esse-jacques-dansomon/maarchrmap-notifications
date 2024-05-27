@@ -12,6 +12,8 @@ import { OrganizationService } from '../organization/services/organization.servi
 import { UserPositionService } from '../organization/services/UserPosition.service';
 import { NotificationService } from '../batch-processing/services/notification/notification.service';
 import { Notification } from '../batch-processing/entities/Notification';
+import { Archive } from '../archive/entities/Archive.entity';
+import { ArchiveService } from '../archive/services/archive.service';
 
 @Module({
   imports: [
@@ -24,6 +26,7 @@ import { Notification } from '../batch-processing/entities/Notification';
 
       //
       Notification,
+      Archive,
     ]),
   ],
   providers: [
@@ -33,6 +36,7 @@ import { Notification } from '../batch-processing/entities/Notification';
     OrganizationService,
     UserPositionService,
     NotificationService,
+    ArchiveService,
   ],
   exports: [TasksService],
 })
