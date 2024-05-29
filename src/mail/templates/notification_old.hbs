@@ -1,0 +1,70 @@
+<div>
+  <p>{{message}}</p>
+
+  {{# if archive}}
+
+    {{# if archive.archiveName}}
+      <p>Archive : {{archive.archiveName}} </p>
+    {{/if}}
+
+    {{# if archive.originatorOrgRegNumber}}
+      <p>Service producteur : {{archive.originatorOrgRegNumber}} </p>
+    {{/if}}
+
+  {{/if}}
+
+  {{#if data}}
+
+    {{#if resId}}
+      <p>Identifiant  {{resId}}</p>
+    {{/if}}
+
+    {{#if eventType}}
+      <p>Type        {{eventType}}</p>
+    {{/if}}
+
+    {{#if timestamp}}
+      <p>Horodatage  {{timestamp}}</p>
+    {{/if}}
+
+
+    <p>Résultat d'opération
+      {{#if result}}
+        Succès
+      {{else}}
+        Echec
+      {{/if}}
+    </p>
+    <br>
+    <p>
+      <b>Description</b>
+    </p>
+    <ul>
+      {{#if event.instanceName}}
+        <li>Plateforme : {{event.instanceName}}</li>
+      {{/if}}
+      {{#if resId}}
+        <li>Identifiant de ressource : {{resId}}</li>
+      {{/if}}
+      {{#if originatorOrgRegNumber}}
+        <li>Numéro de registre de l'organisation d'origine : {{originatorOrgRegNumber}}</li>
+      {{/if}}
+      {{#if depositorOrgRegNumber}}
+        <li>Numéro de registre de l'organisation déposante : {{depositorOrgRegNumber}}</li>
+      {{/if}}
+      {{#if archiverOrgRegNumber}}
+        <li>Numéro de registre de l'organisation d'archivage : {{archiverOrgRegNumber}}</li>
+      {{/if}}
+      {{#if originatorArchiveId}}
+        <li>Identifiant de l'archive d'origine : {{originatorArchiveId}}</li>
+      {{/if}}
+      {{#if archivalProfileReference}}
+        <li>Référence du profil d'archivage : {{archivalProfileReference}}</li>
+      {{/if}}
+    </ul>
+  {{/if}}
+
+  <p>Pour plus d'informations, veuillez visiter le site
+    <a href="https://maarchrmap.axone-sn.com/">Axone Archive</a>.
+  </p>
+</div>

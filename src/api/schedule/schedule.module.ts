@@ -14,6 +14,8 @@ import { NotificationService } from '../batch-processing/services/notification/n
 import { Notification } from '../batch-processing/entities/Notification';
 import { Archive } from '../archive/entities/Archive.entity';
 import { ArchiveService } from '../archive/services/archive.service';
+import { MedonaMessage } from '../medona/entities/MedonaMessage.entity';
+import { MedonaMessageService } from '../medona/services/medona-message.service';
 
 @Module({
   imports: [
@@ -27,6 +29,9 @@ import { ArchiveService } from '../archive/services/archive.service';
       //
       Notification,
       Archive,
+
+      //
+      MedonaMessage,
     ]),
   ],
   providers: [
@@ -37,6 +42,7 @@ import { ArchiveService } from '../archive/services/archive.service';
     UserPositionService,
     NotificationService,
     ArchiveService,
+    MedonaMessageService,
   ],
   exports: [TasksService],
 })

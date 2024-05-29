@@ -37,6 +37,49 @@ export class MailService {
     });
   }
 
+  async sendMedonaMail(data: {
+    to: string | string[];
+    subject: string;
+    medonaMessage: any;
+  }) {
+    const {
+      messageId,
+      schema,
+      type,
+      status,
+      date,
+      reference,
+      accountId,
+      senderOrgRegNumber,
+      senderOrgName,
+      recipientOrgRegNumber,
+      recipientOrgName,
+      archivalAgreementReference,
+      receptionDate,
+    } = data.medonaMessage;
+
+    return await this.mailerService.sendMail({
+      template: 'medona',
+      to: data.to,
+      subject: data.subject,
+      context: {
+        messageId,
+        schema,
+        type,
+        status,
+        date,
+        reference,
+        accountId,
+        senderOrgRegNumber,
+        senderOrgName,
+        recipientOrgRegNumber,
+        recipientOrgName,
+        archivalAgreementReference,
+        receptionDate,
+      },
+    });
+  }
+
   async sendEventMail(notification: {
     archive: Archive;
     maarchRmEvent: MaarchRmEvent;

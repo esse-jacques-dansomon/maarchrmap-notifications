@@ -7,6 +7,7 @@ import { AuthModule } from './auth/auth.module';
 import { LifeCycleModule } from './life-cycle/life-cycle.module';
 import { ScheduleModule } from './schedule/schedule.module';
 import { BatchProcessingModule } from './batch-processing/batch-processing.module';
+import { MedonaModule } from './medona/medona.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { BatchProcessingModule } from './batch-processing/batch-processing.modul
     LifeCycleModule,
     ScheduleModule,
     BatchProcessingModule,
+    MedonaModule,
   ],
   providers: [
     {

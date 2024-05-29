@@ -1,73 +1,132 @@
-<div>
-  <p>{{message}}</p>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Notification d'Archive</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      color: #333;
+    }
+    .container {
+      max-width: 600px;
+      margin: 20px auto;
+      padding: 20px;
+      /*background-color: #fff;*/
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      /*box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);*/
+    }
+    .header, .footer {
+      background-color: #f8f8f8;
+      padding: 10px;
+      border-bottom: 1px solid #ddd;
+      border-top: 1px solid #ddd;
+      text-align: center;
+    }
+    .header {
+      border-top: none;
+    }
+    .footer {
+      border-bottom: none;
+      font-size: 0.9em;
+      color: #555;
+    }
+    .content p {
+      margin: 10px 0;
+    }
+    .content ul {
+      list-style-type: none;
+      padding: 0;
+    }
+    .content ul li {
+      background: #f8f8f8;
+      margin: 5px 0;
+      padding: 10px;
+      border-radius: 3px;
+    }
+    a {
+      color: #0066cc;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <h1>Notification d'Archive : {{eventType}}</h1>
+  </div>
+  <div class="content">
+    <p>{{message}}</p>
 
-  {{# if archive}}
-
-    {{# if archive.archiveName}}
-      <p>Archive : {{archive.archiveName}} </p>
-    {{/if}}
-
-    {{# if archive.originatorOrgRegNumber}}
-      <p>Service producteur : {{archive.originatorOrgRegNumber}} </p>
-    {{/if}}
-
-  {{/if}}
-
-  {{#if data}}
-
-    {{#if resId}}
-      <p>Identifiant  {{resId}}</p>
-    {{/if}}
-
-    {{#if eventType}}
-      <p>Type        {{eventType}}</p>
-    {{/if}}
-
-    {{#if timestamp}}
-      <p>Horodatage  {{timestamp}}</p>
-    {{/if}}
-
-
-    <p>Résultat d'opération
-      {{#if result}}
-        Succès
-      {{else}}
-        Echec
+    {{#if archive}}
+      {{#if archive.archiveName}}
+        <p><strong>Archive :</strong> {{archive.archiveName}}</p>
       {{/if}}
-    </p>
-    <br>
-    <p>
-      <b>Description</b>
-    </p>
-    <ul>
-      {{#if event.instanceName}}
-        <li>Plateforme : {{event.instanceName}}</li>
+
+      {{#if archive.originatorOrgRegNumber}}
+        <p><strong>Service producteur :</strong> {{archive.originatorOrgRegNumber}}</p>
       {{/if}}
+    {{/if}}
+
+    {{#if data}}
       {{#if resId}}
-        <li>Identifiant de ressource : {{resId}}</li>
+        <p><strong>Identifiant :</strong> {{resId}}</p>
       {{/if}}
-      {{#if address}}
-        <li>Adresse : {{address}}</li>
-      {{/if}}
-      {{#if originatorOrgRegNumber}}
-        <li>Numéro de registre de l'organisation d'origine : {{originatorOrgRegNumber}}</li>
-      {{/if}}
-      {{#if depositorOrgRegNumber}}
-        <li>Numéro de registre de l'organisation déposante : {{depositorOrgRegNumber}}</li>
-      {{/if}}
-      {{#if archiverOrgRegNumber}}
-        <li>Numéro de registre de l'organisation d'archivage : {{archiverOrgRegNumber}}</li>
-      {{/if}}
-      {{#if originatorArchiveId}}
-        <li>Identifiant de l'archive d'origine : {{originatorArchiveId}}</li>
-      {{/if}}
-      {{#if archivalProfileReference}}
-        <li>Référence du profil d'archivage : {{archivalProfileReference}}</li>
-      {{/if}}
-    </ul>
-  {{/if}}
 
-  <p>Pour plus d'informations, veuillez visiter le site
-    <a href="https://maarchrmap.axone-sn.com/">Axone Archive</a>.
-  </p>
+      {{#if eventType}}
+        <p><strong>Type :</strong> {{eventType}}</p>
+      {{/if}}
+
+      {{#if timestamp}}
+        <p><strong>Horodatage :</strong> {{timestamp}}</p>
+      {{/if}}
+
+      <p><strong>Résultat d'opération :</strong>
+        {{#if result}}
+          Succès
+        {{else}}
+          Échec
+        {{/if}}
+      </p>
+
+      <p><b>Description :</b></p>
+      <ul>
+        {{#if event.instanceName}}
+          <li><strong>Plateforme :</strong> {{event.instanceName}}</li>
+        {{/if}}
+        {{#if resId}}
+          <li><strong>Identifiant de ressource :</strong> {{resId}}</li>
+        {{/if}}
+        {{#if originatorOrgRegNumber}}
+          <li><strong>Numéro de registre de l'organisation d'origine :</strong> {{originatorOrgRegNumber}}</li>
+        {{/if}}
+        {{#if depositorOrgRegNumber}}
+          <li><strong>Numéro de registre de l'organisation déposante :</strong> {{depositorOrgRegNumber}}</li>
+        {{/if}}
+        {{#if archiverOrgRegNumber}}
+          <li><strong>Numéro de registre de l'organisation d'archivage :</strong> {{archiverOrgRegNumber}}</li>
+        {{/if}}
+        {{#if originatorArchiveId}}
+          <li><strong>Identifiant de l'archive d'origine :</strong> {{originatorArchiveId}}</li>
+        {{/if}}
+        {{#if archivalProfileReference}}
+          <li><strong>Référence du profil d'archivage :</strong> {{archivalProfileReference}}</li>
+        {{/if}}
+      </ul>
+    {{/if}}
+
+    <p>Pour plus d'informations, veuillez visiter le site
+      <a href="https://maarchrmap.axone-sn.com/">Axone Archive</a>.
+    </p>
+  </div>
+  <div class="footer">
+    <p>&copy; 2024 Axone SA. Tous droits réservés.</p>
+  </div>
 </div>
+</body>
+</html>

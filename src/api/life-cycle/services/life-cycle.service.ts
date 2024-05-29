@@ -89,8 +89,8 @@ export class LifeCycleService {
     return recipients;
   }
 
-  saveEvent(event: MaarchRmEvent) {
-    this.eventRepository.save(event);
+  async saveEvent(event: MaarchRmEvent) {
+    await this.eventRepository.save(event);
   }
 
   private marchRmapEventToEventDto(event: MaarchRmEvent): MaarchEventDto {
@@ -112,5 +112,11 @@ export class LifeCycleService {
     eventDto.axoneNotificationSent = event.axoneNotificationSent;
     eventDto.eventInfoFormated = event.eventInfoFormatted;
     return eventDto;
+  }
+
+  public async getRecipientsMailsByrOrgNum(orgNumber: string) {
+    return await this.userPositionService.getUserPositionsByOrgNumber(
+      orgNumber,
+    );
   }
 }

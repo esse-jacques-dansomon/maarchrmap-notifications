@@ -14,6 +14,8 @@ import { Organization } from '../../api/organization/entities/Organization.entit
 import { MaarchRmEvent } from '../../api/life-cycle/entities/Event.entity';
 import { MaarchRmEventFormat } from '../../api/life-cycle/entities/EventFormat.entity';
 import { Notification } from '../../api/batch-processing/entities/Notification';
+import { MedonaMessage } from '../../api/medona/entities/MedonaMessage.entity';
+
 @Injectable()
 export class TypeOrmConfigService implements TypeOrmOptionsFactory {
   @Inject(ConfigService)
@@ -51,6 +53,8 @@ export class TypeOrmConfigService implements TypeOrmOptionsFactory {
         MaarchRmEvent,
         MaarchRmEventFormat,
         Notification,
+        //medona
+        MedonaMessage,
       ],
       migrations: ['dist/db/migrations/*.{ts,js}'],
       migrationsTableName: 'maarchrmap_migrations',
