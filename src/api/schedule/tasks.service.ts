@@ -79,7 +79,7 @@ export class TasksService {
       //save message
       message.isSentNotificationWhenStatusIsReceived = true;
       await this.medonaMessageService.saveMedonaMessage(message);
-      console.log('medona mail send', users);
+      console.log('medona mail send', usersMails);
     }
   }
 }

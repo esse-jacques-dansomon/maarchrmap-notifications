@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { LifeCycleController } from './life-cycle.controller';
+// import { LifeCycleController } from './life-cycle.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { MaarchRmEvent } from './entities/Event.entity';
 import { MaarchRmEventFormat } from './entities/EventFormat.entity';
@@ -12,7 +12,7 @@ import { UserPosition } from '../organization/entities/UserPosition.entity';
 import { UserPositionService } from '../organization/services/UserPosition.service';
 
 @Module({
-  controllers: [LifeCycleController],
+  controllers: [],
   imports: [
     TypeOrmModule.forFeature([
       MaarchRmEvent,
