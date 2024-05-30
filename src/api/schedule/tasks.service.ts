@@ -59,19 +59,23 @@ export class TasksService {
   }
 
   // @Cron('15 * * * * *')
-  @Cron('5 * * * * *') // every 30 seconds
+  // @Cron('5 * * * * *') // every 30 seconds
+  @Cron('0 */2 * * * *')
   async notifyArchiverWhenNewMedonaIsReceived() {
     const medonaMessages: MedonaMessage[] =
       await this.medonaMessageService.getMedonaReceivedMessages();
     console.log('modena messages', medonaMessages.length);
     for (const message of medonaMessages) {
-      const users = await this.lifeCycleService.getRecipientsMailsByrOrgNum(
+      const users = await this.lifeCycleService.getRecipientsMailsByrOrgNums([
         message.recipientOrgRegNumber,
-      );
+        message.senderOrgRegNumber,
+      ]);
 
       const usersMails = users.map((user) => user.account.emailAddress);
+      console.log('users', users.length);
       //send notification
       await this.mailService.sendMedonaMail({
+        // to: 'essedansomon@gmail.com',
         to: usersMails,
         subject: "Transfert d'archive",
         medonaMessage: message,

@@ -28,4 +28,17 @@ export class UserPositionService {
       })
       .getMany();
   }
+
+  async getUserPositionsByOrgNumbers(
+    orgNumbers: string[],
+  ): Promise<UserPosition[]> {
+    return await this.userPositionRepository
+      .createQueryBuilder('userPosition')
+      .leftJoinAndSelect('userPosition.account', 'account')
+      .leftJoinAndSelect('userPosition.organization', 'organization')
+      .where('organization.registrationNumber IN (:...orgNumbers)', {
+        orgNumbers,
+      })
+      .getMany();
+  }
 }

@@ -119,4 +119,10 @@ export class LifeCycleService {
       orgNumber,
     );
   }
+
+  public async getRecipientsMailsByrOrgNums(orgNumbers: string[]) {
+    return await this.userPositionService.getUserPositionsByOrgNumbers(
+      orgNumbers,
+    );
+  }
 }

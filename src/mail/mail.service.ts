@@ -2,6 +2,8 @@ import { MailerService } from '@nestjs-modules/mailer';
 import { Injectable } from '@nestjs/common';
 import { Archive } from '../api/archive/entities/Archive.entity';
 import { MaarchRmEvent } from '../api/life-cycle/entities/Event.entity';
+import { format } from 'date-fns';
+import { fr } from 'date-fns/locale';
 
 @Injectable()
 export class MailService {
@@ -67,7 +69,7 @@ export class MailService {
         schema,
         type,
         status,
-        date,
+        date: this.formateDate(date),
         reference,
         accountId,
         senderOrgRegNumber,
@@ -75,7 +77,7 @@ export class MailService {
         recipientOrgRegNumber,
         recipientOrgName,
         archivalAgreementReference,
-        receptionDate,
+        receptionDate: this.formateDate(receptionDate),
       },
     });
   }
@@ -95,7 +97,7 @@ export class MailService {
       template: 'notification',
       context: {
         eventType: notification.maarchRmEvent.eventType,
-        timestamp: notification.maarchRmEvent.timestamp,
+        timestamp: this.formateDate(notification.maarchRmEvent.timestamp),
         description: notification.maarchRmEvent.description,
         eventInfo: notification.maarchRmEvent.eventInfo,
         event: notification.maarchRmEvent,
@@ -111,6 +113,12 @@ export class MailService {
         result: notification.maarchRmEvent.operationResult,
         archive: notification.archive,
       },
+    });
+  }
+
+  private formateDate(date: any) {
+    return format(new Date(date), "EEEE dd MMMM yyyy 'à' HH:mm:ss", {
+      locale: fr,
     });
   }
 }
