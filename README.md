@@ -1,5 +1,3 @@
-Voici un exemple de README structuré pour une application NestJS qui lit des données dans une table et envoie des notifications grâce à un job Cron :
-
 # SCRIPT DE LECTURE ET ENVOI DE NOTIFICATIONS
 
 ## Table des matières
@@ -100,4 +98,3 @@ MAIL_FROM=
 
 ---
 
-Avec cette structure, vous pouvez gérer l'installation, la configuration, et le déploiement de votre application NestJS, tout en suivant les bonnes pratiques pour la gestion des variables d'environnement et des logs.
