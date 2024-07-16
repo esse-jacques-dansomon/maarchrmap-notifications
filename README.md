@@ -28,6 +28,7 @@ Le script se base sur NestJS et utilise les packages suivants :
 - `"dotenv": "^16.4.5"` : pour les variables d'environnement
 
 ## L'architecture
+![img.png](img.png)
 
 L'application est construite selon l'architecture modulaire de NestJS. Les modules principaux incluent :
 
@@ -35,6 +36,29 @@ L'application est construite selon l'architecture modulaire de NestJS. Les modul
 - **DatabaseModule** : pour la configuration de la base de données
 - **CronModule** : pour la configuration et l'exécution des jobs Cron
 
+
+
+```plantuml
++--------------------+       +--------------------+       +--------------------+
+|                    |       |                    |       |                    |
+|    Notification    |       |     Database       |       |       Cron         |
+|      Module        |       |       Module       |       |      Module        |
+|                    |       |                    |       |                    |
++---------+----------+       +---------+----------+       +---------+----------+
+          |                            |                            |
+          |                            |                            |
+          |                            |                            |
+          +----------------------------+                            |
+                   Read data from database                          |
+                                                                    |
+                                                                    |
+                                                                    |
+          +----------------------------------------------------------+
+          |
+          |
+      Send notifications
+
+```
 ## Le flow
 
 1. Cloner le projet avec la commande :
@@ -50,11 +74,12 @@ L'application est construite selon l'architecture modulaire de NestJS. Les modul
 
 3. Configuration
 
-    - Créer un fichier `.env` à partir du modèle fourni :
-      ```sh
+ - Créer un fichier `.env` à partir du modèle fourni :
+
+    ```sh
       cp .env.example .env
-      ```
-    - Mettre à jour les variables d'environnement dans le fichier `.env` avec les informations nécessaires (base de données, configurations de notification, etc.).
+    ```
+ - Mettre à jour les variables d'environnement dans le fichier `.env` avec les informations nécessaires (base de données, configurations de notification, etc.).
 
 4. Lancer l'application :
    ```shell
