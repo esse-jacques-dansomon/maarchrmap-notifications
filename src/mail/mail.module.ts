@@ -12,7 +12,6 @@ import { ConfigService } from '@nestjs/config';
       // imports: [ConfigModule], // import module if not enabled globally
       useFactory: async (config: ConfigService) => ({
         // transport: config.get("MAIL_TRANSPORT"),
-        // or
         transport: {
           host: config.get('MAIL_HOST'),
           secure: config.get('MAIL_SECURE'),
@@ -21,13 +20,13 @@ import { ConfigService } from '@nestjs/config';
             // do not fail on invalid certs
             rejectUnauthorized: false,
           },
-          auth: {
-            user: config.get('MAIL_USER'),
-            pass: config.get('MAIL_PASSWORD'),
-          },
+          // auth: {
+          //   user: config.get('MAIL_USER'),
+          //   pass: config.get('MAIL_PASSWORD'),
+          // },
         },
         defaults: {
-          from: `"No Reply" <${config.get('MAIL_FROM')}>`,
+          from: `${config.get('MAIL_FROM')}`,
         },
         template: {
           dir: join(__dirname, 'templates'),
