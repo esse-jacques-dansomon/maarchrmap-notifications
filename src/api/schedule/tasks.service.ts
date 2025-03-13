@@ -21,46 +21,52 @@ export class TasksService {
     private readonly medonaMessageService: MedonaMessageService,
   ) {}
 
-  // @Cron('5 * * * * *') // every 30 seconds
-  @Cron('0 */2 * * * *') // every 30 seconds
+  @Cron('*/10 * * * * *') //every 30s
   async updateEventNotificationSchedule() {
     const eventLifeCycles =
       await this.lifeCycleService.getLifeCyclesMustOrNotNotified();
-    console.log('eventLifeCycles Must be sent =>', eventLifeCycles.length);
+    console.log(
+      'eventLifeCycles: axoneNotification(false) => ',
+      eventLifeCycles.length,
+    );
     for (const event of eventLifeCycles) {
       const eventFormat = event.eventFormat;
-      if (eventFormat) {
-        if (eventFormat.notification) {
-          event.axoneNotification = 'canBeNotified';
-        } else {
-          event.axoneNotification = 'canNotBeNotified';
-        }
-        if (!event.axoneNotificationSent) {
-          const users = await this.lifeCycleService.getEventRecipients(event);
-          const archive = await this.archiveService.getArchiveById(
-            event.objectId,
-          );
+      if (eventFormat.notification) {
+        event.axoneNotification = 'canBeNotified';
+        const users = await this.lifeCycleService.getEventRecipients(event);
+        const archive = await this.archiveService.getArchiveById(
+          event.objectId,
+        );
+        try {
           //send mail
           await this.mailService.sendEventMail({
             archive: archive,
             text: event.description,
-            subject: event.eventType,
+            subject: event.description,
             data: event.eventInfoFormatted,
             maarchRmEvent: event,
             to: users,
           });
+        } catch (e) {
+          console.log(e);
+        } finally {
           event.axoneNotificationSent = true;
-          console.log('send mail', event.eventType, 'users', users);
+          event.axoneNotification = 'canBeNotified';
+          console.log('event', event);
         }
-        //save event
-        await this.lifeCycleService.saveEvent(event);
+      } else {
+        event.axoneNotification = 'canNotBeNotified';
+        console.log(
+          'eventLifeCycles Must not be sent =>',
+          eventFormat.type,
+          event.eventType,
+        );
       }
+      await this.lifeCycleService.saveEvent(event);
     }
   }
 
-  // @Cron('15 * * * * *')
-  // @Cron('5 * * * * *') // every 30 seconds
-  @Cron('0 */2 * * * *')
+  @Cron('*/30 * * * * *') //every 30s
   async notifyArchiverWhenNewMedonaIsReceived() {
     const medonaMessages: MedonaMessage[] =
       await this.medonaMessageService.getMedonaReceivedMessages();
@@ -75,7 +81,6 @@ export class TasksService {
       console.log('users', users.length);
       //send notification
       await this.mailService.sendMedonaMail({
-        // to: 'essedansomon@gmail.com',
         to: usersMails,
         subject: "Transfert d'archive",
         medonaMessage: message,
@@ -83,7 +88,11 @@ export class TasksService {
       //save message
       message.isSentNotificationWhenStatusIsReceived = true;
       await this.medonaMessageService.saveMedonaMessage(message);
-      console.log('medona mail send', usersMails);
     }
   }
+  //
+  // @Cron('*/30 * * * * *') //every 30s
+  // aync watchArchive() {
+  //
+  // }
 }

@@ -17,3 +17,8 @@ ALTER TABLE "lifeCycle"."event"
 
 ALTER TABLE IF EXISTS "medona"."message"
     ADD COLUMN "isSentNotificationWhenStatusIsReceived" boolean DEFAULT False;
+
+-- BEFORE RUNNING THIS SCRIPT, MAKE SURE TO UPDATE THE TABLES IN THE DATABASE
+UPDATE "lifeCycle"."event"
+SET "axoneNotification" = 'canNotBeNotified'
+WHERE "axoneNotification" = 'notVerified';

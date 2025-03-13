@@ -25,9 +25,12 @@ export class LifeCycleService {
       .where('event.axoneNotification = :axoneNotification', {
         axoneNotification: 'notVerified',
       })
-      .andWhere('eventFormat.notification = :notification', {
-        notification: true,
+      .andWhere('event.axoneNotificationSent = :axoneNotificationSent', {
+        axoneNotificationSent: false,
       })
+      // .andWhere('eventFormat.notification = :notification', {
+      //   notification: true,
+      // })
       .getMany();
   }
 
@@ -36,9 +39,12 @@ export class LifeCycleService {
       .createQueryBuilder('event')
       .leftJoinAndSelect('event.eventFormat', 'eventFormat') // Join with eventFormat
       .where('event.axoneNotificationSent = :sent', { sent: false })
-      // .andWhere('eventFormat.notification = :notification', {
-      //   notification: false,
-      // })
+      .andWhere('event.axoneNotification = :axoneNotification', {
+        axoneNotification: 'canBeNotified',
+      })
+      .andWhere('eventFormat.notification = :notification', {
+        notification: true,
+      })
       .getMany();
     return events;
   }
