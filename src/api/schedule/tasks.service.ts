@@ -47,12 +47,13 @@ export class TasksService {
             maarchRmEvent: event,
             to: users,
           });
+          console.log('Mail sent to =>', users);
         } catch (e) {
           console.log(e);
         } finally {
           event.axoneNotificationSent = true;
           event.axoneNotification = 'canBeNotified';
-          console.log('event', event);
+          console.log('event update in data base', event.description);
         }
       } else {
         event.axoneNotification = 'canNotBeNotified';
