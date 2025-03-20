@@ -21,7 +21,7 @@ export class TasksService {
     private readonly medonaMessageService: MedonaMessageService,
   ) {}
 
-  @Cron('*/60 * * * * *') //every 30s
+  @Cron('*/60 * * * * *')
   async updateEventNotificationSchedule() {
     const eventLifeCycles =
       await this.lifeCycleService.getLifeCyclesMustOrNotNotified();
@@ -60,7 +60,7 @@ export class TasksService {
     }
   }
 
-  @Cron('*/60 * * * * *') //every 30s
+  @Cron('*/60 * * * * *')
   async notifyArchiverWhenNewMedonaIsReceived() {
     const medonaMessages: MedonaMessage[] =
       await this.medonaMessageService.getMedonaReceivedMessages();
@@ -86,9 +86,4 @@ export class TasksService {
       await this.medonaMessageService.saveMedonaMessage(message);
     }
   }
-  //
-  // @Cron('*/30 * * * * *') //every 30s
-  // aync watchArchive() {
-  //
-  // }
 }

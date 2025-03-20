@@ -20,10 +20,10 @@ import { ConfigService } from '@nestjs/config';
             // do not fail on invalid certs
             rejectUnauthorized: true,
           },
-          auth: {
-            user: config.get('MAIL_USER'),
-            pass: config.get('MAIL_PASSWORD'),
-          },
+          // auth: {
+          //   user: config.get('MAIL_USER'),
+          //   pass: config.get('MAIL_PASSWORD'),
+          // },
         },
         defaults: {
           from: `${config.get('MAIL_FROM')}`,
