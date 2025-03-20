@@ -18,12 +18,12 @@ import { ConfigService } from '@nestjs/config';
           port: config.get('MAIL_PORT'),
           tls: {
             // do not fail on invalid certs
-            rejectUnauthorized: false,
+            rejectUnauthorized: true,
           },
-          // auth: {
-          //   user: config.get('MAIL_USER'),
-          //   pass: config.get('MAIL_PASSWORD'),
-          // },
+          auth: {
+            user: config.get('MAIL_USER'),
+            pass: config.get('MAIL_PASSWORD'),
+          },
         },
         defaults: {
           from: `${config.get('MAIL_FROM')}`,

@@ -17,7 +17,7 @@ export class MailService {
   ) {
     await this.mailerService.sendMail({
       to: to,
-      subject: 'Axone Maarch RMAP - Notification',
+      subject: 'SAE BOAD - Notification',
       template: 'archive',
       context: {
         name: name,

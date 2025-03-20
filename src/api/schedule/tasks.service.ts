@@ -21,14 +21,10 @@ export class TasksService {
     private readonly medonaMessageService: MedonaMessageService,
   ) {}
 
-  @Cron('*/10 * * * * *') //every 30s
+  @Cron('*/60 * * * * *') //every 30s
   async updateEventNotificationSchedule() {
     const eventLifeCycles =
       await this.lifeCycleService.getLifeCyclesMustOrNotNotified();
-    console.log(
-      'eventLifeCycles: axoneNotification(false) => ',
-      eventLifeCycles.length,
-    );
     for (const event of eventLifeCycles) {
       const eventFormat = event.eventFormat;
       if (eventFormat.notification) {
@@ -47,31 +43,27 @@ export class TasksService {
             maarchRmEvent: event,
             to: users,
           });
-          console.log('Mail sent to =>', users);
+          this.logger.log(
+            new Date().toISOString(),
+            `Notification sent to ${users} for event ${event.description}`,
+          );
         } catch (e) {
-          console.log(e);
+          this.logger.error(e);
         } finally {
           event.axoneNotificationSent = true;
           event.axoneNotification = 'canBeNotified';
-          console.log('event update in data base', event.description);
         }
       } else {
         event.axoneNotification = 'canNotBeNotified';
-        console.log(
-          'eventLifeCycles Must not be sent =>',
-          eventFormat.type,
-          event.eventType,
-        );
       }
       await this.lifeCycleService.saveEvent(event);
     }
   }
 
-  @Cron('*/30 * * * * *') //every 30s
+  @Cron('*/60 * * * * *') //every 30s
   async notifyArchiverWhenNewMedonaIsReceived() {
     const medonaMessages: MedonaMessage[] =
       await this.medonaMessageService.getMedonaReceivedMessages();
-    console.log('modena messages', medonaMessages.length);
     for (const message of medonaMessages) {
       const users = await this.lifeCycleService.getRecipientsMailsByrOrgNums([
         message.recipientOrgRegNumber,
@@ -79,7 +71,10 @@ export class TasksService {
       ]);
 
       const usersMails = users.map((user) => user.account.emailAddress);
-      console.log('users', users.length);
+      this.logger.log(
+        new Date().toISOString(),
+        `Notification sent to ${usersMails} for medona ${message}`,
+      );
       //send notification
       await this.mailService.sendMedonaMail({
         to: usersMails,
