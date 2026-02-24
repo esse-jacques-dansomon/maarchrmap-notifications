@@ -29,9 +29,12 @@ export class TasksService {
       const eventFormat = event.eventFormat;
       if (eventFormat.notification) {
         event.axoneNotification = 'canBeNotified';
-        const users = await this.lifeCycleService.getEventRecipients(event);
         const archive = await this.archiveService.getArchiveById(
           event.objectId,
+        );
+        const users = await this.lifeCycleService.getEventRecipients(
+          event,
+          archive?.depositorOrgRegNumber,
         );
         try {
           //send mail
@@ -65,12 +68,11 @@ export class TasksService {
     const medonaMessages: MedonaMessage[] =
       await this.medonaMessageService.getMedonaReceivedMessages();
     for (const message of medonaMessages) {
-      const users = await this.lifeCycleService.getRecipientsMailsByrOrgNums([
-        message.recipientOrgRegNumber,
-        message.senderOrgRegNumber,
-      ]);
-
-      const usersMails = users.map((user) => user.account.emailAddress);
+      const usersMails =
+        await this.lifeCycleService.getMedonaNotificationRecipients(
+          message.senderOrgRegNumber,
+          message.recipientOrgRegNumber,
+        );
       this.logger.log(
         new Date().toISOString(),
         `Notification sent to ${usersMails} for medona ${message}`,

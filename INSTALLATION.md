@@ -50,6 +50,17 @@ MAILER_TLS=
 MAIL_USER=
 MAIL_PASSWORD=
 MAIL_FROM=
+
+# Notifications - Mode de distribution (restricted | all)
+# restricted : Service des archives + Service versant uniquement
+# all : tout le monde (expéditeur + utilisateurs de toutes les organisations)
+NOTIFICATION_MODE=restricted
+
+# Notifications - Service des archives (emails séparés par des virgules, mode restricted)
+ARCHIVE_SERVICE_EMAILS=bdiarra@boad.org,etokplo@boad.org,aouro@boad.org,jtchalekou@boad.org
+
+# URL du SAE pour les liens dans les notifications
+SAE_URL=https://sae.boad.org/
 ```
 
 ## Install the Dependencies

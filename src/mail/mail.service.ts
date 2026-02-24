@@ -1,5 +1,6 @@
 import { MailerService } from '@nestjs-modules/mailer';
 import { Injectable } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { Archive } from '../api/archive/entities/Archive.entity';
 import { MaarchRmEvent } from '../api/life-cycle/entities/Event.entity';
 import { format } from 'date-fns';
@@ -7,7 +8,10 @@ import { fr } from 'date-fns/locale';
 
 @Injectable()
 export class MailService {
-  constructor(private mailerService: MailerService) {}
+  constructor(
+    private mailerService: MailerService,
+    private configService: ConfigService,
+  ) {}
 
   async sendArchivedNotification(
     to: string | string[],
@@ -78,6 +82,7 @@ export class MailService {
         recipientOrgName,
         archivalAgreementReference,
         receptionDate: this.formateDate(receptionDate),
+        saeUrl: this.configService.get<string>('SAE_URL') ?? 'https://sae.boad.org/',
       },
     });
   }
@@ -103,15 +108,16 @@ export class MailService {
         event: notification.maarchRmEvent,
         message: notification.text,
         data: notification.data,
-        resId: notification.data.resId,
-        address: notification.data.address,
-        originatorOrgRegNumber: notification.data.originatorOrgRegNumber,
-        depositorOrgRegNumber: notification.data.depositorOrgRegNumber,
-        archiverOrgRegNumber: notification.data.archiverOrgRegNumber,
-        originatorArchiveId: notification.data.originatorArchiveId,
-        archivalProfileReference: notification.data.archivalProfileReference,
+        resId: notification.data?.resId,
+        address: notification.data?.address,
+        originatorOrgRegNumber: notification.data?.originatorOrgRegNumber,
+        depositorOrgRegNumber: notification.data?.depositorOrgRegNumber,
+        archiverOrgRegNumber: notification.data?.archiverOrgRegNumber,
+        originatorArchiveId: notification.data?.originatorArchiveId,
+        archivalProfileReference: notification.data?.archivalProfileReference,
         result: notification.maarchRmEvent.operationResult,
         archive: notification.archive,
+        saeUrl: this.configService.get<string>('SAE_URL') ?? 'https://sae.boad.org/',
       },
     });
   }

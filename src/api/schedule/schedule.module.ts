@@ -7,7 +7,6 @@ import { Account } from '../auth/entities/Account.entity';
 import { Organization } from '../organization/entities/Organization.entity';
 import { UserPosition } from '../organization/entities/UserPosition.entity';
 import { LifeCycleService } from '../life-cycle/services/life-cycle.service';
-import { AccountService } from '../auth/services/account.service';
 import { OrganizationService } from '../organization/services/organization.service';
 import { UserPositionService } from '../organization/services/UserPosition.service';
 import { NotificationService } from '../batch-processing/services/notification/notification.service';
@@ -16,9 +15,11 @@ import { Archive } from '../archive/entities/Archive.entity';
 import { ArchiveService } from '../archive/services/archive.service';
 import { MedonaMessage } from '../medona/entities/MedonaMessage.entity';
 import { MedonaMessageService } from '../medona/services/medona-message.service';
+import { AuthModule } from '../auth/auth.module';
 
 @Module({
   imports: [
+    AuthModule,
     TypeOrmModule.forFeature([
       MaarchRmEvent,
       MaarchRmEventFormat,
@@ -37,7 +38,6 @@ import { MedonaMessageService } from '../medona/services/medona-message.service'
   providers: [
     TasksService,
     LifeCycleService,
-    AccountService,
     OrganizationService,
     UserPositionService,
     NotificationService,
