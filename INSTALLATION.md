@@ -10,6 +10,7 @@ This guide provides step-by-step instructions to clone the repository, update th
 4. [Install the Dependencies](#install-the-dependencies)
 5. [Build the Project](#build-the-project)
 6. [Run the Project](#run-the-project)
+7. [Run with PM2](#run-with-pm2)
 
 ## Clone the Repository
 
@@ -100,6 +101,49 @@ Alternatively, if you are using Docker, you can build and run the project using 
     ```
 
 3. Your application should now be running and accessible at `http://localhost:3000`.
+
+## Run with PM2
+
+For production, you can use [PM2](https://pm2.keymetrics.io/) to keep the application running and manage it as a background process.
+
+1. Install PM2 globally:
+
+    ```bash
+    npm install -g pm2
+    ```
+
+2. Build the project, then start it with PM2:
+
+    ```bash
+    npm run build
+    pm2 start npm --name "maarchrmap-notifications" -- run start:prod
+    ```
+
+3. Useful PM2 commands:
+
+    ```bash
+    pm2 status                          # Check the status of the application
+    pm2 logs maarchrmap-notifications   # View the logs
+    pm2 restart maarchrmap-notifications # Restart the application
+    pm2 stop maarchrmap-notifications    # Stop the application
+    pm2 delete maarchrmap-notifications  # Remove the application from PM2
+    ```
+
+4. To restart after pulling new changes:
+
+    ```bash
+    git pull
+    npm install
+    npm run build
+    pm2 restart maarchrmap-notifications
+    ```
+
+5. To start PM2 automatically on server boot:
+
+    ```bash
+    pm2 startup
+    pm2 save
+    ```
 
 ## Additional Notes
 

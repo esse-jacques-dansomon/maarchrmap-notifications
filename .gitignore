@@ -1,10 +1,14 @@
 # compiled output
 /dist
+/build
 /node_modules
 
 
+# Env files (all variants)
 .env
-.env.prod
+.env.*
+!.env.example
+
 # Logs
 logs
 *.log
@@ -13,6 +17,12 @@ pnpm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 lerna-debug.log*
+
+# PM2
+.pm2/
+ecosystem.config.local.js
+pm2.log
+pm2-*.log
 
 # OS
 .DS_Store
